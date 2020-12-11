@@ -1,0 +1,94 @@
+﻿@model IEnumerable<EmployeeManagement.Models.Job>
+
+
+@{
+
+    ViewBag.Title = "Job List";
+}
+
+<div class="card-deck">
+    @foreach (var job in Model)
+    {
+        <div class="card m-3">
+            <div class="card-header" style="background-color: red;">
+                <h3>@job.Title</h3>
+            </div>
+            <img class="card-img-top" src="~/images/banner.jpg" asp-append-version="true" />
+            <div class="card-footer text-center">
+                <h4>Job ID: @job.Id</h4>
+                <h4>Company Name: @job.CompanyName</h4>
+                <h4>Description: @job.Description</h4>
+
+                <h4>Comments: @job.Comments</h4>
+                <h4>Salary: $@job.Salary</h4>
+                <h4>Job Rating: $@job.Rating</h4>
+                <a asp-controller="job" asp-action="jobdetails" asp-route-id="@job.Id" class="btn btn-primary">View</a>
+
+                <a href="#" class="btn btn-primary">Edit</a>
+                <a href="#" class="btn btn-primary">Delete</a>
+
+            </div>
+        </div>
+    }
+
+</div>
+
+
+@*@{
+
+        ViewBag.Title = "Job List";
+    }
+
+    <div class="card-deck">
+        @foreach (var job in Model)
+        {
+            <div class="card m-3">
+                <div class="card-header text-white" style="background-color: #00AA9E;">
+                    <h3>@job.Title</h3>
+                </div>
+                <div class="card-header">
+                    <p class="card-text">Description: @job.Description</p>
+                    <p class="card-text">Company: @job.CompanyName</p>
+                    <p class="card-text">Comments: @job.Comments</p>
+
+                </div>
+
+
+                <div class="card-footer text-center" >
+                    <a asp-controller="job" asp-action="details" asp-route-id="@job.Id" class="btn btn-primar m-1">View</a>
+
+                    <a href="#" class="btn btn-primary">Edit</a>
+                    <a href="#" class="btn btn-danger">Delete</a>
+
+                </div>
+            </div>
+        }
+
+    </div>*@
+
+
+@*<table>
+        <tr>
+            <th>ID</th>
+            <th>Comment</th>
+            <th>Description</th>
+            <th>Salary</th>
+            <th>Submitted</th>
+        </tr>
+
+        <tbody>
+            @foreach (var job in Model)
+            {
+                <tr>
+
+                    <td>@job.Id</td>
+                    <td>@job.Comments.</td>
+                    <td>@job.Description</td>
+                    <td>@job.Salary</td>
+                    <td>@job.SubmittedApplication</td>
+                </tr>
+            }
+        </tbody>
+    </table>*@
+
+

@@ -1,0 +1,62 @@
+﻿
+@model EmployeeManagement.ViewModels.JobDetailsViewModel
+
+
+@{
+     
+    ViewBag.Title = "Job Details";
+}
+
+
+<h3>@Model.PageTitle</h3>
+
+<!--<div class="row justify-content-center" m-3>
+    <div class="col-sm-8">
+        <div class="card">
+            <div class="card-header text-white" style="background-color: #00AA9E;">
+                <h1>@Model.Job.Title</h1>
+            </div>
+            <div class="card-body text-center">-->
+                @*<img class="card-img-top" src="~/images/MyResumeTracker v2.png" />*@
+                <!--<h4>Job ID: @Model.Job.Id</h4>
+
+                <h4>Description: @Model.Job.Description</h4>
+
+                <h4>Company Name: @Model.Job.CompanyName</h4>
+                <h4>Comments: @Model.Job.Comments</h4>
+                <h4>Job Rating: @Model.Job.Rating</h4>
+            </div>
+            <div class="card-footer text-center" >
+                <a asp-controller="job" asp-action="index" class="btn btn-primary">Back</a>
+                <a href="#" class="btn btn-primary">Edit</a>
+                <a href="#" class="btn btn-primary">Delete</a>
+            </div>
+        </div>
+    </div>
+
+</div>-->
+
+<div class="row justify-content-center" m-3>
+    <div class="col-sm-8">
+        <div class="card">
+            <div class="card-header text-center" style="background-color: red;">
+                <h1>@Model.Job.Title</h1>
+            </div>
+            <div class="card-body">
+                @*<img class="card-img-top" src="~/images/MyResumeTracker v2.png" />*@
+                <h4>Job ID: @Model.Job.Id</h4>
+                <h4>Company Name: @Model.Job.CompanyName</h4>
+                <h4>Description: @Model.Job.Description</h4>
+                <h4>Salary: @Model.Job.Salary</h4>
+                <h4>Comments: @Model.Job.Comments</h4>
+                <h4>Job Rating: @Model.Job.Rating</h4>
+            </div>
+            <div class="card-footer text-center">
+                <a asp-controller="home" asp-action="index" class="btn btn-primary">Back</a>
+                <a href="#" class="btn btn-primary">Edit</a>
+                <a href="#" class="btn btn-primary">Delete</a>
+            </div>
+        </div>
+    </div>
+
+</div>
