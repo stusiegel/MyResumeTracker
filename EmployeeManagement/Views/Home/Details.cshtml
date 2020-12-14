@@ -3,6 +3,8 @@
 @{
 
     ViewBag.Title = "Employee Details";
+    var photoPath = "~/images/" + (Model.Employee.PhotoPath ?? "no-image.jpg");
+    
 }
 
 <h3>@Model.PageTitle</h3>
@@ -14,11 +16,11 @@
                 <h1>@Model.Employee.Name</h1>
             </div>
             <div class="card-body">
-                <img class="card-img-top" src="~/images/banner.jpg" />
+                <img class="card-img-top" src="@photoPath" width="75" height="75"  asp-append-version="true"/>
                 <h4>Employee ID: @Model.Employee.Id</h4>
-                <h4>Employee ID: @Model.Employee.Name</h4>
-                <h4>Employee ID: @Model.Employee.Department</h4>
-                <h4>Employee ID: @Model.Employee.Coomments</h4>
+                <h4>Name: @Model.Employee.Name</h4>
+                <h4>Department: @Model.Employee.Department</h4>
+                <h4>Comments: @Model.Employee.Coomments</h4>
             </div>
             <div class="card-footer text-center">
                 <a asp-controller="home" asp-action="index" class="btn btn-primary">Back</a>

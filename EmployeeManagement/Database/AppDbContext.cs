@@ -10,7 +10,7 @@ namespace EmployeeManagement.Database
     public class AppDbContext : DbContext
 
     {
-        public AppDbContext(DbContextOptions<AppDbContext> options) 
+        public AppDbContext(DbContextOptions<AppDbContext> options)
             : base(options)
         {
 
@@ -18,5 +18,67 @@ namespace EmployeeManagement.Database
 
         public DbSet<Models.Employee> Employees { get; set; }
         public DbSet<Models.Job> Jobs { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            //calls the extentions method in Models.ModelBuilderExtensions.Seed()
+            modelBuilder.Seed();
+
+            //Data moved to Models.ModelBuilderExtensions.Seed()
+            // modelBuilder.Entity<Employee>().HasData(
+            //     new Employee
+            //     {
+            //         Id = 1,
+            //         Name = "Mark",
+            //         Department = DeptEnum.IT,
+            //         Email = "mark@pragimtech.com"
+            //     },
+            //     new Employee {
+            //         Id = 2,
+            //         Name = "Stu",
+            //         Department = DeptEnum.Payroll,
+            //         Email = "stu.siegel@yahoo.com"
+            //     },
+            //     new Employee
+            //     {
+            //         Id = 3,
+            //         Name = "Mary Duckworth",
+            //         Department = DeptEnum.HR,
+            //         Email = "MaryD@gmail.com"
+            //     }
+            // );
+
+            // modelBuilder.Entity<Job>().HasData(
+            //    new Job
+            //    {
+            //        Id = 1,
+            //        Title = "Sr Software Developer",
+            //        Description = "Master of all",
+            //        Comments = "Awesome Opportunity",
+            //        CompanyName = "CVS",
+            //        Rating = JobRatingEnum.One 
+            //        //Salary = 104000M
+            //    },
+            //    new Job 
+            //    { Id = 2, 
+            //        Title = "Sr Engineer", 
+            //        Description = "Use Java", 
+            //        Comments = "Java's a job ", 
+            //        CompanyName = "USAA", 
+            //        Rating = JobRatingEnum.Three 
+            //    },
+            //    new Job 
+            //    { Id = 3, 
+            //        Title = "Golf Pro", 
+            //        Description = "Leaving the dream", 
+            //        Comments = "Who doesn't love golf", 
+            //        CompanyName = "PGA", 
+            //        Rating = JobRatingEnum.Five 
+            //    }
+
+
+            //);
+        }
     }
 }
+

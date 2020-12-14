@@ -1,50 +1,52 @@
 ﻿@model IEnumerable<Employee>
+   
 
+    @{
 
-@{
-
-    ViewBag.Title = "Employee List";
-}
-
-<div class="card-deck">
-    @foreach (var employee in Model)
-    {
-        <div class="card m-3">
-            <div class="card-header" style="background-color: red;">
-                <h3>@employee.Name</h3>
-            </div>
-            <img class="card-img-top" src="~/images/banner.jpg" asp-append-version="true"/>
-            <div class="card-footer text-center">
-                <a asp-controller="home" asp-action="details" asp-route-id="@employee.Id"  class="btn btn-primary">View</a>
-                
-                <a href="#" class="btn btn-primary">Edit</a>
-                <a href="#" class="btn btn-primary">Delete</a>
-
-            </div>
-        </div>
+        ViewBag.Title = "Employee List";
     }
 
-</div>
+    <div class="card-deck">
+        @foreach (var employee in Model)
+        {
+            var photoPath = "~/images/" + (employee.PhotoPath ?? "banner.jpg");
+
+            <div class="card m-3" style="min-width: 18rem; max-width:30.5%;">
+                <div class="card-header" style="background-color: red;">
+                    <h3>@employee.Name</h3>
+                </div>
+                <img class="card-img-top imageThumbnail" src="@photoPath" asp-append-version="true" />
+                <div class="card-footer text-center">
+                    <a asp-controller="home" asp-action="details" asp-route-id="@employee.Id" class="btn btn-primary">View</a>
+
+                    <a href="#" class="btn btn-primary">Edit</a>
+                    <a href="#" class="btn btn-primary">Delete</a>
+
+                </div>
+            </div>
+        }
+
+    </div>
 
 
-@*<table>
-        <tr>
-            <th>ID</th>
-            <th>Name</th>
-            <th>Department</th>
-        </tr>
+    @*<table>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Department</th>
+            </tr>
 
-        <tbody>
-            @foreach (var employee in Model)
-            {
-                <tr>
+            <tbody>
+                @foreach (var employee in Model)
+                {
+                    <tr>
 
-                    <td>@employee.Id</td>
-                    <td>@employee.Name</td>
-                    <td>@employee.Department</td>
+                        <td>@employee.Id</td>
+                        <td>@employee.Name</td>
+                        <td>@employee.Department</td>
 
-                </tr>
-            }
-        </tbody>
-    </table>*@
+                    </tr>
+                }
+            </tbody>
+        </table>*@
 

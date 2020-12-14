@@ -32,14 +32,14 @@ namespace EmployeeManagement
 
             services.AddMvc().AddXmlSerializerFormatters();
 
-             services.AddSingleton<IEmployeeRepository, MockEmployeeRepository>();
-             services.AddSingleton<IJobRepository, MockJobRepository>();
+             //services.AddSingleton<IEmployeeRepository, MockEmployeeRepository>();
+             //services.AddSingleton<IJobRepository, MockJobRepository>();
             //services.AddTransient<IEmployeeRepository, MockEmployeeRepository>();
             //services.AddTransient<IJobRepository, MockJobRepository>();
            // services.AddScoped<IEmployeeRepository, MockEmployeeRepository>();
             //services.AddScoped<IJobRepository, MockJobRepository>();
-            //services.AddScoped<IEmployeeRepository, SQLEmployeeRepository>();
-            //services.AddScoped<IJobRepository, SQLJobRespository>();
+            services.AddScoped<IEmployeeRepository, SQLEmployeeRepository>();
+            services.AddScoped<IJobRepository, SQLJobRespository>();
 
             services.AddMvc(options => options.EnableEndpointRouting = false);
            

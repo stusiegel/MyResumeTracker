@@ -17,9 +17,9 @@ namespace EmployeeManagement.Models
             _jobList = new List<Job>()
 
             {
-                new Job() { Id = 1, Title = "Sr Software Developer", Description = "Master of all", Comments = "Awesome Opportunity", CompanyName = "CVS", Rating=JobRatingEnum.One, Salary = 104000M},
-                new Job() { Id = 2,Title = "Sr Engineer", Description = "Use Java", Comments = "Java's a job ", CompanyName = "USAA",  Rating=JobRatingEnum.Three, Salary = 90000M},
-                new Job() { Id = 3, Title = "Golf Pro", Description = "Leaving the dream", Comments = "Who doesn't love golf", CompanyName = "PGA", Rating=JobRatingEnum.Five, Salary = 50000M },
+                new Job() { Id = 1, Title = "Sr Software Developer", Description = "Master of all", Comments = "Awesome Opportunity", CompanyName = "CVS", Rating=JobRatingEnum.One},
+                new Job() { Id = 2,Title = "Sr Engineer", Description = "Use Java", Comments = "Java's a job ", CompanyName = "USAA",  Rating=JobRatingEnum.Three},
+                new Job() { Id = 3, Title = "Golf Pro", Description = "Leaving the dream", Comments = "Who doesn't love golf", CompanyName = "PGA", Rating=JobRatingEnum.Five },
                  //new Job() { Id = 4, Title = "Golf Club Sales", Description = "Sales job", Comments = "Work at Dicks", CompanyName = "Dick's sporting goods", Salary = 4000M, SubmittedApplication = true },
                  // new Job() { Id = 5, Title = "Golf Club Fitter", Description = "Help fit people for clubs", Comments = "Helping people", CompanyName = "PGA Superstore", Salary = 50000M, SubmittedApplication = true }
             };
@@ -61,7 +61,7 @@ namespace EmployeeManagement.Models
             {
                 job.Title = jobChanges.Title;
                 job.Description = jobChanges.Description;
-                job.Salary = jobChanges.Salary;
+                //job.Salary = jobChanges.Salary;
                 job.Comments = jobChanges.Comments;
                 job.CompanyName = jobChanges.CompanyName;
                 job.Rating = jobChanges.Rating;

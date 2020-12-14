@@ -1,10 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using EmployeeManagement.Models;
 using EmployeeManagement.ViewModels;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Hosting;
 
 namespace EmployeeManagement.Controllers
 {
@@ -12,10 +15,11 @@ namespace EmployeeManagement.Controllers
     public class HomeController : Controller
     {
         private readonly IEmployeeRepository _employeeRepository;
-       
+        private readonly IWebHostEnvironment _webHostEnvironment;
         //injecting employeeRepostory into private field
 
-        public HomeController(IEmployeeRepository employeeRepository) 
+        public HomeController(IEmployeeRepository employeeRepository,
+                               IWebHostEnvironment webHostEnvironment) 
         {
             _employeeRepository = employeeRepository;
         }
@@ -50,19 +54,65 @@ namespace EmployeeManagement.Controllers
             return View();
         }
 
+        //Before file upload control
+        //[HttpPost]
+        ////public RedirectToActionResult Create(Employee employee) //using ModelState we must change from RedirectionActionResult to IActionResult
+        //public IActionResult Create(Employee employee)
+        //{
+        //    //Check to see if onscreen validation has passed.
+        //    if (ModelState.IsValid)
+        //    { 
+        //    //add the employee
+        //    Employee newEmployee = _employeeRepository.Add(employee);
+        //    return RedirectToAction("details", new { id = newEmployee.Id });
+
+        //    }
+
+        //    return View();
+        //}
+
         [HttpPost]
         //public RedirectToActionResult Create(Employee employee) //using ModelState we must change from RedirectionActionResult to IActionResult
-        public IActionResult Create(Employee employee)
+        public IActionResult Create(EmployeeViewCreateViewModel model)
         {
             //Check to see if onscreen validation has passed.
             if (ModelState.IsValid)
-            { 
-            //add the employee
-            Employee newEmployee = _employeeRepository.Add(employee);
-            return RedirectToAction("details", new { id = newEmployee.Id });
-         
+            {
+                string uniqueFileName = null;
+                if(model.Photo != null)
+                {
+                  //  string uploadsFolder = null;
+                    
+                   // if (string.IsNullOrWhiteSpace(_webHostEnvironment.WebRootPath) || string.IsNullOrEmpty(_webHostEnvironment.WebRootPath)
+                   // {
+                    string webRootPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot");
+                    string uploadsFolder = Path.Combine(webRootPath, "images");
+                   // }
+                   // else
+                   // {
+                    //    uploadsFolder = Path.Combine(_webHostEnvironment.WebRootPath, "images");
+                  //  }
+                    
+                    uniqueFileName = Guid.NewGuid().ToString() + "_" + model.Photo.FileName;
+                   string filePath =  Path.Combine(uploadsFolder, uniqueFileName);
+                    model.Photo.CopyTo(new FileStream(filePath, FileMode.Create));
+                }
+                //add the employee
+                // origial before file upload added Employee newEmployee = _employeeRepository.Add(employee);
+                Employee newEmployee = new Employee
+                {
+                    Name = model.Name,
+                    Email = model.Email,
+                    Department = model.Department,
+                    PhotoPath = uniqueFileName
+                };
+
+
+                _employeeRepository.Add(newEmployee);
+                return RedirectToAction("details", new { id = newEmployee.Id });
+
             }
-            
+
             return View();
         }
     }

@@ -9,7 +9,7 @@
 <div class="card-deck">
     @foreach (var job in Model)
     {
-        <div class="card m-3">
+        <div class="card m-3" style="min-width: 18rem; max-width:30.5%;">
             <div class="card-header" style="background-color: red;">
                 <h3>@job.Title</h3>
             </div>
@@ -20,8 +20,8 @@
                 <h4>Description: @job.Description</h4>
 
                 <h4>Comments: @job.Comments</h4>
-                <h4>Salary: $@job.Salary</h4>
-                <h4>Job Rating: $@job.Rating</h4>
+                @*<h4>Salary: $@job.Salary</h4>*@
+                <h4>Job Rating: @job.Rating</h4>
                 <a asp-controller="job" asp-action="jobdetails" asp-route-id="@job.Id" class="btn btn-primary">View</a>
 
                 <a href="#" class="btn btn-primary">Edit</a>
