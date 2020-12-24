@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using EmployeeManagement.Models;
 using EmployeeManagement.ViewModels;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Hosting;
 
@@ -54,48 +55,108 @@ namespace EmployeeManagement.Controllers
             return View();
         }
 
-        //Before file upload control
-        //[HttpPost]
-        ////public RedirectToActionResult Create(Employee employee) //using ModelState we must change from RedirectionActionResult to IActionResult
-        //public IActionResult Create(Employee employee)
-        //{
-        //    //Check to see if onscreen validation has passed.
-        //    if (ModelState.IsValid)
-        //    { 
-        //    //add the employee
-        //    Employee newEmployee = _employeeRepository.Add(employee);
-        //    return RedirectToAction("details", new { id = newEmployee.Id });
-
-        //    }
-
-        //    return View();
-        //}
+        [HttpGet]
+        public ViewResult Edit(int id)
+        {
+            Employee employee = _employeeRepository.GetEmployee(id);
+            EmployeeEditViewModel employeeEditViewModel = new EmployeeEditViewModel
+            {
+                Id = employee.Id,
+                Name = employee.Name,
+                Email = employee.Email,
+                Department = employee.Department,
+                ExistingPhotoPath = employee.PhotoPath
+            };
+            return View(employeeEditViewModel);
+        }
 
         [HttpPost]
         //public RedirectToActionResult Create(Employee employee) //using ModelState we must change from RedirectionActionResult to IActionResult
-        public IActionResult Create(EmployeeViewCreateViewModel model)
+        public IActionResult Edit(EmployeeEditViewModel model)
+        {
+            //Check to see if onscreen validation has passed.
+            if (ModelState.IsValid)
+            {
+                Employee employee = _employeeRepository.GetEmployee(model.Id);
+                employee.Name = model.Name;
+                employee.Email = model.Email;
+                employee.Department = model.Department;
+
+                if (model.Photos != null)
+                {
+                    if (model.ExistingPhotoPath != null)
+                    {
+                        string webRootPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot");
+                        string uploadsFolder = Path.Combine(webRootPath, "images");
+                        string filePath = Path.Combine(uploadsFolder, model.ExistingPhotoPath);
+                        System.IO.File.Delete(filePath);
+
+                    }
+                    //string uniqueFileName = ProcessUploadedFile(model);
+                    employee.PhotoPath = ProcessUploadedFile(model);
+                }
+               
+
+                _employeeRepository.Update(employee);
+                return RedirectToAction("index");
+
+            }
+
+            return View();
+        }
+
+        private static string ProcessUploadedFile(EmployeeEditViewModel model)
+        {
+            string uniqueFileName = null;
+            if (model.Photos != null && model.Photos.Count > 0)
+            {
+
+                foreach (IFormFile photo in model.Photos)
+                {
+
+                    string webRootPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot");
+                    string uploadsFolder = Path.Combine(webRootPath, "images");
+
+
+                    uniqueFileName = Guid.NewGuid().ToString() + "_" + photo.FileName;
+                    string filePath = Path.Combine(uploadsFolder, uniqueFileName);
+
+                    //Video 56 has logic how to use fileStream to delete existing photo and add new one in it's place at 15:39
+                    //using (var fileStream = new FileStream(filePath, FileMode.Create))
+                    //{
+                    //    model.Photo.CopyTo(fileStream);
+                    //}
+                    photo.CopyTo(new FileStream(filePath, FileMode.Create));
+                }
+
+            }
+
+            return uniqueFileName;
+        }
+
+        [HttpPost]
+        //public RedirectToActionResult Create(Employee employee) //using ModelState we must change from RedirectionActionResult to IActionResult
+        public IActionResult Create(EmployeeCreateViewModel model)
         {
             //Check to see if onscreen validation has passed.
             if (ModelState.IsValid)
             {
                 string uniqueFileName = null;
-                if(model.Photo != null)
+                if (model.Photos != null && model.Photos.Count > 0)
                 {
-                  //  string uploadsFolder = null;
-                    
-                   // if (string.IsNullOrWhiteSpace(_webHostEnvironment.WebRootPath) || string.IsNullOrEmpty(_webHostEnvironment.WebRootPath)
-                   // {
-                    string webRootPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot");
-                    string uploadsFolder = Path.Combine(webRootPath, "images");
-                   // }
-                   // else
-                   // {
-                    //    uploadsFolder = Path.Combine(_webHostEnvironment.WebRootPath, "images");
-                  //  }
-                    
-                    uniqueFileName = Guid.NewGuid().ToString() + "_" + model.Photo.FileName;
-                   string filePath =  Path.Combine(uploadsFolder, uniqueFileName);
-                    model.Photo.CopyTo(new FileStream(filePath, FileMode.Create));
+
+                    foreach (IFormFile photo in model.Photos)
+                    {
+
+                        string webRootPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot");
+                        string uploadsFolder = Path.Combine(webRootPath, "images");
+
+
+                        uniqueFileName = Guid.NewGuid().ToString() + "_" + photo.FileName;
+                        string filePath = Path.Combine(uploadsFolder, uniqueFileName);
+                        photo.CopyTo(new FileStream(filePath, FileMode.Create));
+                    }
+
                 }
                 //add the employee
                 // origial before file upload added Employee newEmployee = _employeeRepository.Add(employee);
@@ -115,5 +176,7 @@ namespace EmployeeManagement.Controllers
 
             return View();
         }
+
+
     }
 }

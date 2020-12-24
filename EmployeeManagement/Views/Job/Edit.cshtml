@@ -1,11 +1,10 @@
-﻿@model Job
-@inject IJobRepository _jobRepositoy
-@*@model JobCreateViewModel*@
+﻿@model JobEditViewModel
 @{
-    ViewBag.Title = "Create Job Entry";
+    ViewBag.Title = "Edit Job";
 }
 
-<form asp-controller="job" asp-action="create" method="post" class="mt-3">
+<form asp-controller="job" asp-action="edit" method="post" class="mt-3">
+    <input hidden asp-for="Id" />
     <div class="form-group row">
         <label asp-for="Title" class="col-sm-2 col-form-label"></label>
         <div class="col-sm-10">
@@ -26,12 +25,18 @@
             <input asp-for="Comments" class="form-control" placeholder="Comments">
         </div>
     </div>
-    @*<div class="form-group row">
-        <label asp-for="Salary" class="col-sm-2 col-form-label"></label>
+    <div class="form-group row">
+        <label asp-for="CompanyName" class="col-sm-2 col-form-label"></label>
         <div class="col-sm-10">
-            <input asp-for="Salary" class="form-control" placeholder="Salary">
+            <input asp-for="CompanyName" class="form-control" placeholder="CompanyName">
         </div>
-    </div>*@
+    </div>
+    @*<div class="form-group row">
+            <label asp-for="Salary" class="col-sm-2 col-form-label"></label>
+            <div class="col-sm-10">
+                <input asp-for="Salary" class="form-control" placeholder="Salary">
+            </div>
+        </div>*@
 
     <div class="form-group row">
         <label asp-for="Rating" class="col-sm-2 col-form-label"></label>
@@ -47,8 +52,12 @@
     <div asp-validation-summary="All" class="text-danger"></div>
     <div class="form-group row">
         <div class="col-sm-10">
-            <button type="submit" class="btn btn-primary">Create</button>
+            <button type="submit" class="btn btn-primary">Update</button>
+            <a asp-action="index" asp-controller="job"
+               class="btn btn-primary">Cancel</a>
         </div>
     </div>
 </form>
+
+
 

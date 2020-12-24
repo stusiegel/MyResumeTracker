@@ -23,8 +23,10 @@
                 @*<h4>Salary: $@job.Salary</h4>*@
                 <h4>Job Rating: @job.Rating</h4>
                 <a asp-controller="job" asp-action="jobdetails" asp-route-id="@job.Id" class="btn btn-primary">View</a>
-
-                <a href="#" class="btn btn-primary">Edit</a>
+                <a asp-action="edit" asp-controller="Job"
+                   asp-route-id="@job.Id"
+                   class="btn btn-primary">Edit</a>
+               
                 <a href="#" class="btn btn-primary">Delete</a>
 
             </div>

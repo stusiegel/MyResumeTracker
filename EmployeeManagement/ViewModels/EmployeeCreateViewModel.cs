@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace EmployeeManagement.ViewModels
 {
-    public class EmployeeViewCreateViewModel
+    public class EmployeeCreateViewModel
     {
 
         
@@ -27,7 +27,7 @@ namespace EmployeeManagement.ViewModels
 
         public string Coomments { get; set; }
 
-        public IFormFile Photo { get; set; }
-
+        // public List<IFormFile> Photos { get; set; }
+        public List<IFormFile> Photos { get; set; }
     }
 }

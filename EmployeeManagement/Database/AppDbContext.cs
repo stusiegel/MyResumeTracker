@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using EmployeeManagement.Models;
+using EmployeeManagement.ViewModels;
 
 namespace EmployeeManagement.Database
 {
@@ -79,6 +80,8 @@ namespace EmployeeManagement.Database
 
             //);
         }
+
+        public DbSet<EmployeeManagement.ViewModels.JobEditViewModel> JobEditViewModel { get; set; }
     }
 }
 

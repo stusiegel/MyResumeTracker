@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace EmployeeManagement.Controllers
 {
-   [Route("Job")]
+    //[Route("Job")]
     public class JobController : Controller
     {
         private readonly IJobRepository _jobRepository;
@@ -19,7 +19,15 @@ namespace EmployeeManagement.Controllers
             _jobRepository = jobRepository;
         }
 
-        
+        //[Route("")]
+        //[Route("~/")]
+        //[Route("Index")]
+        public ViewResult Index()
+        {
+            var model = _jobRepository.GetAllJobs();
+            return View(model);
+        }
+
         [Route("JobDetails/{id?}")]
         public ViewResult JobDetails(int? id)
         {
@@ -35,10 +43,15 @@ namespace EmployeeManagement.Controllers
         }
 
         [HttpGet]
+        //[Route("Create")]
+        //[HttpGet("[controller]/[action]")]
+        //[Route("Create")]
         public ViewResult Create()
         {
             return View();
         }
+
+       
 
         [HttpPost]
         public IActionResult Create(Job job)
@@ -52,14 +65,42 @@ namespace EmployeeManagement.Controllers
             return View();
         }
 
-
-        [Route("")]
-        [Route("~/")]
-        [Route("Index")]
-        public ViewResult Index()
+        [HttpPost]
+        public IActionResult Edit(JobEditViewModel model)
         {
-            var model = _jobRepository.GetAllJobs();
-            return View(model);
+            if (ModelState.IsValid)
+            {
+                Job job = _jobRepository.GetJob(model.Id);
+                job.CompanyName = model.CompanyName;
+                job.Description = model.Description;
+                job.Title = model.Title;
+                job.Rating = model.Rating;
+
+                _jobRepository.Update(job);
+                //add the employee
+                //Job newJob = _jobRepository.Update(job);
+                return RedirectToAction("index");
+            }
+            return View();
         }
+
+        [HttpGet]
+        public ViewResult Edit(int id)
+        {
+            Job job = _jobRepository.GetJob(id);  
+            JobEditViewModel jobEditViewModel = new JobEditViewModel
+            
+            {
+                Id = job.Id,  
+                Description = job.Description, 
+                CompanyName = job.CompanyName,
+                Comments = job.Comments, 
+                Rating = job.Rating,
+                Title = job.Title
+            };
+            return View(jobEditViewModel);
+        }
+
+
     }
 }
