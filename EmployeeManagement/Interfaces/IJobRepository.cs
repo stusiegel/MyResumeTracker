@@ -16,6 +16,7 @@ namespace EmployeeManagement.Models
        Job Update(Job jobChanges);
 
         Job Delete(int id);
+       
 
         //Job Edit(int id);
     }

@@ -53,22 +53,20 @@ namespace EmployeeManagement
             {    //turn off this pipeline request
                  //DeveloperExceptionPageOptions developerExceptionPageOptions = new DeveloperExceptionPageOptions
                  //{
-                //    SourceCodeLineCount = 20
-                //};
-                //app.UseDeveloperExceptionPage(developerExceptionPageOptions);
+                 //    SourceCodeLineCount = 20
+                 //};
+                 //app.UseDeveloperExceptionPage(developerExceptionPageOptions);
+                
                 app.UseDeveloperExceptionPage();
-
-
+            }
+            else
+            {
+                app.UseExceptionHandler("/Error");
+                //Error is the Controller
+                 app.UseStatusCodePagesWithReExecute("/Error/{0}");
             }
             app.UseStaticFiles();
-            //app.UseMvcWithDefaultRoute();
-            //app.UseMvc();
-
-            //app.UseEndpoints(endpoints =>
-            //{
-            //    endpoints.MapControllerRoute("default", "{controller=Home}/{action=Index}");
-            //}
-            //);
+            
 
             app.UseMvc(routes =>
             {
@@ -76,61 +74,6 @@ namespace EmployeeManagement
                 routes.MapRoute("Jobs", "{controller=Job}/{action=Index}/{id?}");
                 routes.MapRoute("default", "{controller=Home}/{action=Index}/{id?}");
             });
-
-          
-            //app.UseFileServer();
-
-
-            // app.UseStaticFiles();
-            // app.UseFileServer(); this can be used to replace app.UserDefaultFiels and app.useDefaultfiles. Need to create fileServerOptions object instead.
-            // app.UseRouting();
-
-            //chaining middleware
-            //app.Use(async (context, next) =>
-            //{
-            //    logger.LogInformation("MW1: incoming request");
-            //    //await context.Response.WriteAsync("Hello from 1st Middleware.");
-            //    // Do work that doesn't write to the Response.
-            //    await next();
-            //    // Do logging or other work that doesn't write to the Response.
-            //    logger.LogInformation("MW1: outgoing request");
-            //});
-
-            //app.Use(async (context, next) =>
-            //{
-            //    logger.LogInformation("MW2: incoming request");
-            //    //await context.Response.WriteAsync("Hello from 1st Middleware.");
-            //    // Do work that doesn't write to the Response.
-            //    await next();
-            //    // Do logging or other work that doesn't write to the Response.
-            //    logger.LogInformation("MW2: outgoing request");
-            //});
-
-            ////app.Run(async context =>
-            ////{
-            ////    //throw new Exception("some error processing the request");
-            ////    //await context.Response.WriteAsync("hello from startup");
-            ////    //logger.LogInformation("MW3: Hello from 2nd middleware");
-
-            ////    //get value from launchSettings.json
-            ////    await context.Response.WriteAsync("Hello MyResumeTracker");
-            ////});
-
-            //Original code from project start
-            //app.UseRouting();
-
-            //app.UseEndpoints(endpoints =>
-            //{
-            //    endpoints.MapGet("/", async context =>
-            //    {
-            //        await context.Response.WriteAsync("First Middleware ");
-
-            //        //await context.Response.WriteAsync(System.Diagnostics.Process.GetCurrentProcess().ProcessName);
-            //        //await context.Response.WriteAsync(_config["Mykey"]);  //reads from appsettings.json
-            //    });
-
-
-            // });
 
 
         }

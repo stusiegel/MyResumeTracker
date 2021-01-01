@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using EmployeeManagement.Models;
 using EmployeeManagement.ViewModels;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 
 namespace EmployeeManagement.Controllers
 {
@@ -12,11 +13,13 @@ namespace EmployeeManagement.Controllers
     public class JobController : Controller
     {
         private readonly IJobRepository _jobRepository;
+        private readonly ILogger<JobController> logger;
 
         //injecting employeeRepostory into private field
-        public JobController( IJobRepository jobRepository)
+        public JobController( IJobRepository jobRepository, ILogger<JobController> logger)
         {
             _jobRepository = jobRepository;
+            this.logger = logger;
         }
 
         //[Route("")]
@@ -29,12 +32,19 @@ namespace EmployeeManagement.Controllers
         }
 
         [Route("JobDetails/{id?}")]
-        public ViewResult JobDetails(int? id)
+        public ViewResult JobDetails(int id)
         {
+            Job job = _jobRepository.GetJob(id);
+            if (job == null)
+            {
+                Response.StatusCode = 404;
+                return View("JobNotFound", id);
+            }
 
             JobDetailsViewModel jobDetailsViewModel = new JobDetailsViewModel()
             {
-                Job = _jobRepository.GetJob(id??2),
+                //Job = _jobRepository.GetJob(id??2),
+                Job = _jobRepository.GetJob(id),
                 PageTitle = "Job Details"
             };
 

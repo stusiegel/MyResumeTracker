@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 
 namespace EmployeeManagement.Controllers
 {
@@ -17,12 +18,21 @@ namespace EmployeeManagement.Controllers
     {
         private readonly IEmployeeRepository _employeeRepository;
         private readonly IWebHostEnvironment _webHostEnvironment;
+        private readonly IEmployeeRepository employeeRepository;
+        private readonly IWebHostEnvironment webHostEnvironment;
+        private readonly ILogger logger;
+
         //injecting employeeRepostory into private field
 
         public HomeController(IEmployeeRepository employeeRepository,
-                               IWebHostEnvironment webHostEnvironment) 
+                               IWebHostEnvironment webHostEnvironment,
+                               ILogger<HomeController> logger) 
         {
+           
             _employeeRepository = employeeRepository;
+            this.employeeRepository = employeeRepository;
+            this.webHostEnvironment = webHostEnvironment;
+            this.logger = logger;
         }
 
         //[Route("")]
@@ -37,10 +47,27 @@ namespace EmployeeManagement.Controllers
          
         public ViewResult Details(int? id)
         {
-            
+            //logger.LogTrace("Trace Log");
+            //logger.LogDebug("Debug Log");
+            //logger.LogInformation("Information Log");
+            //logger.LogWarning("Warning Log");
+            //logger.LogError("Error Log");
+            //logger.LogCritical("Critical Log");
+            //throw new Exception("Error in Details View");
+
+            Employee employee = _employeeRepository.GetEmployee(id.Value);
+
+            if (employee == null)
+            {
+                Response.StatusCode = 404;
+                return View("EmployeeNot Found ", id.Value);
+            }
+
             HomeDetailsViewModel homeDetailsViewModel = new HomeDetailsViewModel()
             {
-                Employee = _employeeRepository.GetEmployee(id??1),
+                //refactor
+                //Employee = _employeeRepository.GetEmployee(id??1),
+                Employee = employee,
                 PageTitle = "Employee Details"
             };
            
