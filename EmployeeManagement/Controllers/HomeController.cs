@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using EmployeeManagement.Models;
 using EmployeeManagement.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -38,13 +39,15 @@ namespace EmployeeManagement.Controllers
         //[Route("")]
         //[Route("~/")]
         //[Route("Index")]
+        [AllowAnonymous]
         public ViewResult Index()
         {
             
             var model = _employeeRepository.GetAllEmployees();
             return View(model);
         }
-         
+
+        [AllowAnonymous]
         public ViewResult Details(int? id)
         {
             //logger.LogTrace("Trace Log");
@@ -76,12 +79,14 @@ namespace EmployeeManagement.Controllers
 
         }
 
+        [Authorize]
         [HttpGet]
         public ViewResult Create()
         {
             return View();
         }
 
+        [Authorize]
         [HttpGet]
         public ViewResult Edit(int id)
         {
@@ -97,6 +102,7 @@ namespace EmployeeManagement.Controllers
             return View(employeeEditViewModel);
         }
 
+        [Authorize]
         [HttpPost]
         //public RedirectToActionResult Create(Employee employee) //using ModelState we must change from RedirectionActionResult to IActionResult
         public IActionResult Edit(EmployeeEditViewModel model)
@@ -132,6 +138,7 @@ namespace EmployeeManagement.Controllers
             return View();
         }
 
+        [Authorize]
         private static string ProcessUploadedFile(EmployeeEditViewModel model)
         {
             string uniqueFileName = null;
@@ -161,6 +168,7 @@ namespace EmployeeManagement.Controllers
             return uniqueFileName;
         }
 
+        [Authorize]
         [HttpPost]
         //public RedirectToActionResult Create(Employee employee) //using ModelState we must change from RedirectionActionResult to IActionResult
         public IActionResult Create(EmployeeCreateViewModel model)

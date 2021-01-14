@@ -4,9 +4,12 @@ using System.Linq;
 using System.Threading.Tasks;
 using EmployeeManagement.Database;
 using EmployeeManagement.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -30,7 +33,21 @@ namespace EmployeeManagement
             services.AddDbContextPool<AppDbContext>(
             options => options.UseSqlServer(_config.GetConnectionString("MyResumeTrackerDBConnection")));
 
-            services.AddMvc().AddXmlSerializerFormatters();
+            services.AddIdentity<ApplicationUser, IdentityRole>(options =>
+                {
+                    options.Password.RequiredLength = 8;
+                    options.Password.RequiredUniqueChars = 2;
+                })
+                    .AddEntityFrameworkStores<AppDbContext>();
+
+            
+
+            services.AddMvc(config => {
+                var policy = new AuthorizationPolicyBuilder()
+                                .RequireAuthenticatedUser()
+                                .Build();
+                config.Filters.Add(new AuthorizeFilter(policy));
+            }).AddXmlSerializerFormatters();
 
              //services.AddSingleton<IEmployeeRepository, MockEmployeeRepository>();
              //services.AddSingleton<IJobRepository, MockJobRepository>();
@@ -66,7 +83,7 @@ namespace EmployeeManagement
                  app.UseStatusCodePagesWithReExecute("/Error/{0}");
             }
             app.UseStaticFiles();
-            
+            app.UseAuthentication();
 
             app.UseMvc(routes =>
             {

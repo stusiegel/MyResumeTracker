@@ -5,10 +5,11 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using EmployeeManagement.Models;
 using EmployeeManagement.ViewModels;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
 namespace EmployeeManagement.Database
 {
-    public class AppDbContext : DbContext
+    public class AppDbContext : IdentityDbContext<ApplicationUser>
 
     {
         public AppDbContext(DbContextOptions<AppDbContext> options)
@@ -22,6 +23,7 @@ namespace EmployeeManagement.Database
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            base.OnModelCreating(modelBuilder);
             //calls the extentions method in Models.ModelBuilderExtensions.Seed()
             modelBuilder.Seed();
 

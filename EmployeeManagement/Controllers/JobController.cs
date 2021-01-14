@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using EmployeeManagement.Models;
 using EmployeeManagement.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
@@ -25,6 +26,7 @@ namespace EmployeeManagement.Controllers
         //[Route("")]
         //[Route("~/")]
         //[Route("Index")]
+        [AllowAnonymous]
         public ViewResult Index()
         {
             var model = _jobRepository.GetAllJobs();
@@ -32,6 +34,7 @@ namespace EmployeeManagement.Controllers
         }
 
         [Route("JobDetails/{id?}")]
+        [AllowAnonymous]
         public ViewResult JobDetails(int id)
         {
             Job job = _jobRepository.GetJob(id);
@@ -53,6 +56,7 @@ namespace EmployeeManagement.Controllers
         }
 
         [HttpGet]
+        [Authorize]
         //[Route("Create")]
         //[HttpGet("[controller]/[action]")]
         //[Route("Create")]
@@ -64,6 +68,7 @@ namespace EmployeeManagement.Controllers
        
 
         [HttpPost]
+        [Authorize]
         public IActionResult Create(Job job)
         {
             if (ModelState.IsValid)
@@ -76,6 +81,7 @@ namespace EmployeeManagement.Controllers
         }
 
         [HttpPost]
+        [Authorize]
         public IActionResult Edit(JobEditViewModel model)
         {
             if (ModelState.IsValid)
@@ -95,6 +101,7 @@ namespace EmployeeManagement.Controllers
         }
 
         [HttpGet]
+        [Authorize]
         public ViewResult Edit(int id)
         {
             Job job = _jobRepository.GetJob(id);  
