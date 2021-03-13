@@ -49,11 +49,20 @@ namespace EmployeeManagement
                 config.Filters.Add(new AuthorizeFilter(policy));
             }).AddXmlSerializerFormatters();
 
-             //services.AddSingleton<IEmployeeRepository, MockEmployeeRepository>();
-             //services.AddSingleton<IJobRepository, MockJobRepository>();
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy("DeleteRolePolicy",
+                    policy => policy.RequireClaim("Delete Role")
+                                    .RequireClaim("Create Role")
+
+                    );
+            });
+
+            //services.AddSingleton<IEmployeeRepository, MockEmployeeRepository>();
+            //services.AddSingleton<IJobRepository, MockJobRepository>();
             //services.AddTransient<IEmployeeRepository, MockEmployeeRepository>();
             //services.AddTransient<IJobRepository, MockJobRepository>();
-           // services.AddScoped<IEmployeeRepository, MockEmployeeRepository>();
+            // services.AddScoped<IEmployeeRepository, MockEmployeeRepository>();
             //services.AddScoped<IJobRepository, MockJobRepository>();
             services.AddScoped<IEmployeeRepository, SQLEmployeeRepository>();
             services.AddScoped<IJobRepository, SQLJobRespository>();

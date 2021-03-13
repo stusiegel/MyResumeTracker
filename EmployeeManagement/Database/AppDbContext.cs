@@ -27,6 +27,10 @@ namespace EmployeeManagement.Database
             //calls the extentions method in Models.ModelBuilderExtensions.Seed()
             modelBuilder.Seed();
 
+            foreach (var foreignKey in modelBuilder.Model.GetEntityTypes().SelectMany(e => e.GetForeignKeys()))
+            {
+                foreignKey.DeleteBehavior = DeleteBehavior.Restrict;
+            }
             //Data moved to Models.ModelBuilderExtensions.Seed()
             // modelBuilder.Entity<Employee>().HasData(
             //     new Employee
